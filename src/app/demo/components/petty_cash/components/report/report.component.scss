@@ -1,0 +1,54 @@
+::ng-deep p-table{
+    width: 100% !important;
+}
+
+.display_flex_center{
+    display: flex;
+    align-items: center;
+}
+
+.text-38px{
+    font-size: 38px;
+}
+.text-align-right{
+    text-align: right;
+}
+
+.set_width150{
+    width: 150px;
+}
+.no_bg_color{
+    button{
+        background-color: transparent;
+        width: max-content;
+        padding: 0;
+        color: #6366F1;
+        padding: 2px;
+    }
+    .p-button-success{
+        color: #22c55e;
+    }
+    .p-button-info{
+        color: #0ea5e9;
+    }
+    .p-button-danger{
+        color: #ef4444;
+    }
+    .disabled_button{
+        cursor: not-allowed;
+    }
+    
+}
+.font_bold_underline{
+    font-weight: bold !important;
+    text-decoration: underline  !important;
+
+}
+.font_bold{
+    font-weight: bold  !important;
+}
+
+::ng-deep .p-treetable .p-treetable-tbody > tr > td{
+    padding:  3px;
+}
+
