@@ -23,15 +23,26 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'System Features',
                 items: [
-                    { label: 'Estate Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/estate_mange'] },
-                    { label: 'Petty Cash', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash'],
+                    { label: 'Estate', icon: 'pi pi-fw pi-home', routerLink: ['/main/estate_mange'] ,
+                    items: [
+                        { label: 'Estate Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/estate_mange/manage'] },
+                    ]
+                },
+                    {
+                        label: 'Petty Cash', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash'],
                         items: [
                             { label: 'Reimbursing', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash/reimbursing'] },
                             { label: 'Report', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash/report'] }
                         ]
-                     },
+                    },
                     { label: 'User Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/user_mange'] },
-                    { label: 'Employee Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee_mange'] }
+                    {
+                        label: 'Employee', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee'],
+                        items: [
+                            { label: 'Pay Sheet', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee/pay_sheet'] },
+                            { label: 'Employee Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee/manage'] }
+                        ]
+                    }
                 ]
             },
             // {

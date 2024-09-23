@@ -15,12 +15,14 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
+import { EstateManagementComponent } from './components/estate-management/estate-management.component';
 
 
 
 @NgModule({
   declarations: [
-    EstateMainComponent
+    EstateMainComponent,
+	EstateManagementComponent
   ],
   imports: [
     CommonModule,

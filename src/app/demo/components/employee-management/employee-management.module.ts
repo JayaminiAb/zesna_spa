@@ -17,12 +17,16 @@ import { TableModule } from 'primeng/table';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { EmployeeAttendanceComponent } from './components/employee-attendance/employee-attendance.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { EmployeeManagementComponent } from './components/employee-management/employee-management.component';
+import { EmployeePaysheetComponent } from './components/employee-paysheet/employee-paysheet.component';
 
 
 @NgModule({
   declarations: [
     EmployeeMainComponent,
-    EmployeeAttendanceComponent
+    EmployeeAttendanceComponent,
+	EmployeeManagementComponent,
+	EmployeePaysheetComponent
   ],
   imports: [
     CommonModule,
