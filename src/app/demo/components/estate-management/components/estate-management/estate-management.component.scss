@@ -17,7 +17,29 @@
     }
 }
 
-
+.no_bg_color{
+    
+    button{
+        background-color: transparent;
+        width: max-content;
+        padding: 0;
+        color: #6366F1;
+        padding: 3px 5px;
+    }
+    .p-button-success{
+        color: #22c55e;
+    }
+    .p-button-info{
+        color: #0ea5e9;
+    }
+    .p-button-danger{
+        color: #ef4444;
+    }
+    .disabled_button{
+        cursor: not-allowed;
+    }
+    
+}
 
 ::ng-deep p-sidebar .p-sidebar-right {
     width: 30%;
@@ -37,6 +59,12 @@
         /* 100% width for small screens */
 
     }
+}
+::ng-deep .p-datatable .p-datatable-tbody > tr > td{
+    padding:  5px;
+}
+::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    padding:  5px;
 }
 
 

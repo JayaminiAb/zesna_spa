@@ -23,24 +23,31 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'System Features',
                 items: [
-                    { label: 'Estate', icon: 'pi pi-fw pi-home', routerLink: ['/main/estate_mange'] ,
+                    { label: 'Estate', icon: 'pi pi-fw pi-th-large', routerLink: ['/main/estate_mange'] ,
                     items: [
-                        { label: 'Estate Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/estate_mange/manage'] },
+                        { label: 'Estate Management', icon: 'pi pi-fw pi-list', routerLink: ['/main/estate_mange/manage'] },
                     ]
                 },
                     {
-                        label: 'Petty Cash', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash'],
+                        label: 'Petty Cash', icon: 'pi pi-fw pi-wallet', routerLink: ['/main/petty_cash'],
                         items: [
-                            { label: 'Reimbursing', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash/reimbursing'] },
-                            { label: 'Report', icon: 'pi pi-fw pi-home', routerLink: ['/main/petty_cash/report'] }
+                            { label: 'Reimbursing', icon: 'pi pi-fw  pi-money-bill', routerLink: ['/main/petty_cash/reimbursing'] },
+                            { label: 'Report', icon: 'pi pi-fw pi-file', routerLink: ['/main/petty_cash/report'] }
                         ]
                     },
-                    { label: 'User Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/user_mange'] },
+                    { label: 'User Management', icon: 'pi pi-fw pi-user', routerLink: ['/main/user_mange'] },
                     {
-                        label: 'Employee', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee'],
+                        label: 'Employee', icon: 'pi pi-fw pi-users', routerLink: ['/main/employee'],
                         items: [
-                            { label: 'Pay Sheet', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee/pay_sheet'] },
-                            { label: 'Employee Management', icon: 'pi pi-fw pi-home', routerLink: ['/main/employee/manage'] }
+                            { label: 'Pay Sheet', icon: 'pi pi-fw pi-file-excel', routerLink: ['/main/employee/pay_sheet'] },
+                            { label: 'Employee Management', icon: 'pi pi-fw pi-user', routerLink: ['/main/employee/manage'] }
+                        ]
+                    },
+                    {
+                        label: 'Transport', icon: 'pi pi-fw pi-truck', routerLink: ['/main/transport'],
+                        items: [
+                            { label: 'Report List', icon: 'pi pi-fw pi-file-edit', routerLink: ['/main/transport/report-list'] },
+                            
                         ]
                     }
                 ]

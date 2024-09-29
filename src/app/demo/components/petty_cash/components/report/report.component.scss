@@ -23,7 +23,7 @@
         width: max-content;
         padding: 0;
         color: #6366F1;
-        padding: 2px;
+        padding: 3px 5px;
     }
     .p-button-success{
         color: #22c55e;
@@ -49,6 +49,8 @@
 }
 
 ::ng-deep .p-treetable .p-treetable-tbody > tr > td{
-    padding:  3px;
+    padding:  5px;
 }
-
+::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    padding:  5px;
+}

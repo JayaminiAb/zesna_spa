@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Company } from '../../../petty_cash/core/petty-cash';
-import { Employee } from '../../core/employee';
+import { Employee, employees, newEmployee } from '../../core/employee';
 
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
@@ -19,14 +19,12 @@ export class EmployeeManagementComponent {
     { label: 'Company B', value: 2 },
     // Add more companies here
   ];
-  employees: Employee[] = [
-    { id: 1, name: 'John Doe', companyId: 1, role: 'Manager', department: 'Sales', salary: 5000, contactDetails: { email: 'john@example.com', phone: '123-456-7890' }, joinDate: new Date('2020-01-15') },
-    { id: 2, name: 'Jane Smith', companyId: 2, role: 'Developer', department: 'IT', salary: 4000, contactDetails: { email: 'jane@example.com', phone: '098-765-4321' }, joinDate: new Date('2021-03-22') }
-  ];
+  employees: Employee[] = employees;
   selectedCompany: Company;
   selectedEmployee: Employee;
-  newEmployee: Employee = { id: 0, name: '', role: '', companyId: 0, department: '', salary: 0, contactDetails: { email: '', phone: '' }, joinDate: new Date() };
-
+ 
+  
+  newEmployee : Employee = this.deep(newEmployee);
   
   constructor(public dialogService: DialogService, public messageService: MessageService){}
   onEmployeeSelect(employee: Employee){
@@ -72,7 +70,7 @@ export class EmployeeManagementComponent {
   addNewEmployee(): void {
     this.displayEmployeeSlider = true;
     this.editingEmployee = false;
-    this.newEmployee = { id: 0, name: '', role: '', companyId: 0, department: '', salary: 0, contactDetails: { email: '', phone: '' }, joinDate: new Date() };
+    this.newEmployee = this.deep(newEmployee);
   }
 
   hideEmployeeSlider(): void {
@@ -82,13 +80,13 @@ export class EmployeeManagementComponent {
   saveEmployee(): void {
     if (this.editingEmployee) {
       // Update existing employee
-      const index = this.employees.findIndex(e => e.id === this.newEmployee.id);
+      const index = this.employees.findIndex(e => e.Id === this.newEmployee.Id);
       if (index !== -1) {
         this.employees[index] = { ...this.newEmployee };
       }
     } else {
       // Add new employee
-      this.newEmployee.id = this.employees.length + 1;
+      this.newEmployee.Id = this.employees.length + 1;
       this.employees.push({ ...this.newEmployee });
     }
     this.hideEmployeeSlider();
@@ -108,7 +106,11 @@ export class EmployeeManagementComponent {
   }
 
   deleteEmployee(employee: Employee): void {
-    this.employees = this.employees.filter(e => e.id !== employee.id);
+    this.employees = this.employees.filter(e => e.Id !== employee.Id);
+  }
+   // Making a deep copy
+   deep<T extends any>(source: T): T {
+    return JSON.parse(JSON.stringify(source));
   }
 }
 

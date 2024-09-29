@@ -25,27 +25,25 @@
             <ng-template pTemplate="header">
               <tr>
                 <th>Name</th>
-                <th>Role</th>
-                <th>Department</th>
-                <th>Salary</th>
-                <th>Email</th>
-                <th>Phone</th>
+                <th>Duty</th>
+                <th>Phone No</th>
+                
+                <th>Address</th>
+                
                 <th>Join Date</th>
                 <th>Actions</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-employee>
               <tr [pSelectableRow]="employee">
-                <td>{{employee.name}}</td>
-                <td>{{employee.role}}</td>
-                <td>{{employee.department}}</td>
-                <td>{{employee.salary | currency}}</td>
-                <td>{{employee.contactDetails.email}}</td>
-                <td>{{employee.contactDetails.phone}}</td>
-                <td>{{employee.joinDate | date:'shortDate'}}</td>
+                <td>{{employee.Name}}</td>
+                <td>{{employee.Duty}}</td>
+                <td>{{employee.ContactDetails.ContactNumber}}</td>
+                <td>{{employee.ContactDetails.Address.No}}, {{employee.ContactDetails.Address.Street}}, {{employee.ContactDetails.Address.City}}, {{employee.ContactDetails.Address.PostalCode}}</td>
+                <td>{{employee.JoinDate | date:'dd MMM YYYY'}}</td>
   
-                <td class="flex flex-wrap gap-2">
-                  <button pButton type="button" pButton icon="pi pi-eye" (click)="onEmployeeSelect(employee)"></button>
+                <td class="flex flex-wrap gap-2 no_bg_color">
+                  <button pButton type="button" pButton icon="pi pi-info" (click)="onEmployeeSelect(employee)"></button>
                   <button pButton icon="pi pi-eye" class="p-button-success" (click)="viewEmployee(employee)"></button>
                   <button pButton icon="pi pi-pencil" class="p-button-info" (click)="editEmployee(employee)"></button>
                   <button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteEmployee(employee)"></button>
@@ -59,35 +57,55 @@
             </ng-template>
     
             <div class="p-fluid p-formgrid grid">
-              <div class="field col-12">
+              <div class="field col-12 margin_bottom0">
                 <label for="name">Name:</label>
-                <input pInputText id="name" [(ngModel)]="newEmployee.name" />
+                <input pInputText id="name" [(ngModel)]="newEmployee.Name" />
               </div>
-              <div class="field col-12">
-                <label for="role">Role:</label>
-                <input pInputText id="role" [(ngModel)]="newEmployee.role" />
+              <div class="field col-12 margin_bottom0">
+                <label for="role">Duty:</label>
+                <input pInputText id="role" [(ngModel)]="newEmployee.Duty" />
               </div>
-              <div class="field col-12">
-                <label for="department">Department:</label>
-                <input pInputText id="department" [(ngModel)]="newEmployee.department" />
+              <div class="field col-12 margin_bottom0">
+                <label for="department">Company:</label>
+                <input pInputText id="department" [(ngModel)]="newEmployee.CompanyId" />
               </div>
-              <div class="field col-12">
+              <div class="field col-12 margin_bottom0">
                 <label for="salary">Salary:</label>
-                <input pInputText id="salary" [(ngModel)]="newEmployee.salary" />
+                <input pInputText id="salary" [(ngModel)]="newEmployee.Salary" />
               </div>
-              <div class="field col-12">
-                <label for="email">Email:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.contactDetails.email" />
+              <div class="field col-12 margin_bottom0">
+                <label for="email">OT Rate:</label>
+                <input pInputText id="email" [(ngModel)]="newEmployee.OTRate" />
               </div>
-              <div class="field col-12">
+              <div class="field col-12 margin_bottom0">
                 <label for="phone">Phone:</label>
-                <input pInputText id="phone" [(ngModel)]="newEmployee.contactDetails.phone" />
+                <input pInputText id="phone" [(ngModel)]="newEmployee.ContactDetails.ContactNumber" />
               </div>
-              <div class="field col-12">
+              <div class="field col-12 margin_bottom0">
+                <label for="email">Email:</label>
+                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Email" />
+              </div>
+              <div class="field col-12 margin_bottom0">
+                <label for="email">Home No:</label>
+                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.No" />
+              </div>
+              <div class="field col-12 margin_bottom0">
+                <label for="email">Street:</label>
+                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.Street" />
+              </div>
+              <div class="field col-12 margin_bottom0">
+                <label for="email">City:</label>
+                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.City" />
+              </div>
+              <div class="field col-12 margin_bottom0">
+                <label for="email">Postal Code:</label>
+                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.PostalCode" />
+              </div>
+              <div class="field col-12 margin_bottom0">
                 <label for="joinDate">Join Date:</label>
-                <p-calendar [(ngModel)]="newEmployee.joinDate" dateFormat="yy-mm-dd"></p-calendar>
+                <p-calendar [(ngModel)]="newEmployee.JoinDate" dateFormat="yy-mm-dd"></p-calendar>
               </div>
-              <div class="field col-12 flex flex-wrap gap-2 btn_panel">
+              <div class="field col-12 margin_bottom0 flex flex-wrap gap-2 btn_panel">
                 <button pButton type="button" label="Save" (click)="saveEmployee()"></button>
                 <button pButton type="button" label="Cancel" class="p-button-danger" (click)="hideEmployeeSlider()"></button>
               </div>
