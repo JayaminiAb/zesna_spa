@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { User } from '../../core/user';
 import { Company } from '../../../petty_cash/core/petty-cash';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
+import { ZesnaEstateModel } from 'src/app/demo/model/zesna-estate-model';
+import { ZesnaCommonService } from 'src/app/demo/service/zesna-services/zesna-common.service';
+import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
 
 @Component({
   selector: 'app-user-main',
@@ -8,27 +13,41 @@ import { Company } from '../../../petty_cash/core/petty-cash';
   styleUrl: './user-main.component.scss'
 })
 export class UserMainComponent {
-  companies: Company[] = [
-    { label: 'Company A', value: 1 },
-    { label: 'Company B', value: 2 },
-    // Add more companies here
-  ];
-  users: User[] = [
-    { id: 1, username: 'john_doe', email: 'john@example.com', role: 'Admin', status: 'Active' },
-    { id: 2, username: 'jane_smith', email: 'jane@example.com', role: 'User', status: 'Inactive' },
-    { id: 3, username: 'alice_williams', email: 'alice@example.com', role: 'Moderator', status: 'Active' },
-    { id: 4, username: 'bob_johnson', email: 'bob@example.com', role: 'Admin', status: 'Active' },
-    { id: 5, username: 'charlie_brown', email: 'charlie@example.com', role: 'User', status: 'Suspended' }
-  ];
+  
+  
   displayUserSlider: boolean = false;
   editingUser: boolean = false;
-  newUser: User = { id: 0, username: '', email: '', role: '', status: '' };
-  selectedCompany: Company;
-
-  constructor() { }
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
+  //Store logged user details
+  loggedUserId: number = 0;
+  loggedUserRole: string = '';
+  //Store estate model
+  zesnaEstateModel: ZesnaEstateModel;
+  estateList: EstateDetails[] = [];
+  selectedEstate: EstateDetails = {};
+  
+  constructor(private _zesnaCommonService: ZesnaCommonService) { 
+    this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
+    
+  }
 
   ngOnInit(): void {
-    
+    this.getEstateListByUserId();
+  }
+
+  getEstateListByUserId(){
+    this.zesnaEstateModel.GetAllEstateDetails(this.loggedUserId).then(
+      (data) => {
+        if(data){
+          this.estateList = data;
+          this.getEstateSystemUsersPG();
+        }
+      }
+    );
   }
 
   onCompanyChange(event: any) {

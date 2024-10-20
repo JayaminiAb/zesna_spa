@@ -4,12 +4,12 @@
 			<h5>Estate List</h5>
 			<div class="p-fluid p-formgrid grid">
 				<div class="field col-12 md:col-3">
-					<button pButton type="button" label="Add New Estate" icon="pi pi-plus"
+					<button pButton type="button" [label]="selectedEstate.Id === 0 ? 'Add New Estate' : 'Update '+ selectedEstate.Name + ' Estate'" icon="pi pi-plus"
 						(click)="addNewState()"></button>
 				</div>
 
 
-				<p-table [value]="states">
+				<p-table [value]="estatesDetails">
 					<ng-template pTemplate="header">
 						<tr>
 							<th>State Name</th>
@@ -47,22 +47,22 @@
 
 						<div class="field col-12 ">
 							<label for="name">Name:</label>
-							<input pInputText id="name" [(ngModel)]="newState.name" />
+							<input pInputText id="name" [(ngModel)]="selectedEstate.Name" />
 						</div>
 						<div class="field col-12 ">
 							<label for="address">Address:</label>
-						<input pInputText id="address" [(ngModel)]="newState.address" />
+						<input pInputText id="address" [(ngModel)]="selectedEstate.AddressDetails" />
 						</div>
 						<div class="field col-12 ">
 							<label for="contactNumber">Contact Number:</label>
-							<input pInputText id="contactNumber" [(ngModel)]="newState.contactNumber" />
+							<input pInputText id="contactNumber" [(ngModel)]="selectedEstate.ContactNumber" />
 						</div>
 						<div class="field col-12 ">
 							<label for="otherDetails">Other Details:</label>
-						<input pInputText id="otherDetails" [(ngModel)]="newState.otherDetails" />
+						<input pInputText id="otherDetails" [(ngModel)]="selectedEstate.OtherDetails" />
 						</div>
 						<div class=" field col-12 flex flex-wrap gap-2 btn_panel">
-							<button pButton type="button" label="Save" (click)="saveState()"></button>
+							<button pButton type="button" [label]="selectedEstate.Id === 0 ? 'Create' : 'Update'" (click)="saveState(selectedEstate.Id === 0 ? 'NEW' : 'UPDATE')"></button>
 							<button pButton type="button" label="Cancel" class="p-button-danger"
 								(click)="hideSlider()"></button>
 						</div>

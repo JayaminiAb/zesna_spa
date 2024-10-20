@@ -78,18 +78,38 @@
                                             
                                         </div>
                                         <div *ngIf="col.field == 'action'" class="flex flex-wrap gap-2 no_bg_color" (click)="$event.stopPropagation();">
-                                            <button *ngIf="rowNode.level == 0" pButton type="button" class="" icon="pi pi-plus" (click)="addExpenseTop(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 0" pButton icon="pi pi-plus" class=" p-button-success"(click)="addExpenseBottom(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 0" pButton icon="pi pi-plus" class=" p-button-info" (click)="addSubExpenseFromMain(rowData['rowNumber'])"></button>
+                                            <button *ngIf="rowNode.level == 0" pButton type="button" class=""  (click)="addExpenseTop(rowData['rowNumber'])">
+                                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 0" pButton  class=" p-button-success"(click)="addExpenseBottom(rowData['rowNumber'])">
+                                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 0" pButton  class=" p-button-info" (click)="addSubExpenseFromMain(rowData['rowNumber'])">
+                                                <i class="fa fa-indent" aria-hidden="true"></i>
+                                            </button>
 
-                                            <button *ngIf="rowNode.level == 1" pButton type="button" class="" icon="pi pi-plus" (click)="addSubExpenseTop(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 1" pButton icon="pi pi-plus" class=" p-button-success"(click)="addSubExpenseBottom(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 1" pButton icon="pi pi-plus" class=" p-button-info" (click)="addThirdLevelExpenseFromSub(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 2" pButton type="button" class="" icon="pi pi-plus" (click)="addThirdLevelExpenseTop(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 2" pButton icon="pi pi-plus" class=" p-button-success"(click)="addThirdLevelExpenseBottom(rowData['rowNumber'])"></button>
-                                            <button *ngIf="rowNode.level == 2" [disabled]="true" pButton icon="pi pi-plus" class=" p-button-info disabled_button" ></button>
+                                            <button *ngIf="rowNode.level == 1" pButton type="button" class=""  (click)="addSubExpenseTop(rowData['rowNumber'])">
+                                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 1" pButton  class=" p-button-success"(click)="addSubExpenseBottom(rowData['rowNumber'])">
+                                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 1" pButton  class=" p-button-info" (click)="addThirdLevelExpenseFromSub(rowData['rowNumber'])">
+                                                <i class="fa fa-indent" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 2" pButton type="button" class=""  (click)="addThirdLevelExpenseTop(rowData['rowNumber'])">
+                                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 2" pButton  class=" p-button-success"(click)="addThirdLevelExpenseBottom(rowData['rowNumber'])">
+                                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 2" [disabled]="true" pButton  class=" p-button-info disabled_button" >
+                                                <i class="fa fa-indent" aria-hidden="true"></i>
+                                            </button>
                                             <!-- <button pButton icon="pi pi-pencil" class=" p-button-secondary" ></button> -->
-                                            <button pButton icon="pi pi-trash" class=" p-button-danger" (click)="onDateRangeChange(rowNode)"></button>
+                                            <button pButton  class=" p-button-danger" (click)="onDateRangeChange(rowNode)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </ng-template>
                                 </p-treeTableCellEditor>
