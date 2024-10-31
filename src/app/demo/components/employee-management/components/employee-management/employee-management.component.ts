@@ -5,6 +5,13 @@ import { Employee, employees, newEmployee } from '../../core/employee';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { EmployeeAttendanceComponent } from '../employee-attendance/employee-attendance.component';
+import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
+import { Filter } from 'src/app/demo/core/filter';
+import { EmployeeDetails } from 'src/app/demo/core/employee/employee-details';
+import { ZesnaEstateModel } from 'src/app/demo/model/zesna-estate-model';
+import { ZesnaCommonService } from 'src/app/demo/service/zesna-services/zesna-common.service';
+import { ZesnaEmployeeModel } from 'src/app/demo/model/zesna-employee-model';
+import { ZesnaEmployeeService } from 'src/app/demo/service/zesna-services/zesna-employee.service';
 
 @Component({
   selector: 'app-employee-management',
@@ -14,35 +21,107 @@ import { EmployeeAttendanceComponent } from '../employee-attendance/employee-att
 })
 export class EmployeeManagementComponent {
   ref: DynamicDialogRef | undefined;
-  companies: Company[] = [
-    { label: 'Company A', value: 1 },
-    { label: 'Company B', value: 2 },
-    // Add more companies here
-  ];
-  employees: Employee[] = employees;
-  selectedCompany: Company;
-  selectedEmployee: Employee;
+ 
+  employees: EmployeeDetails[] = [];
+
+  selectedEmployee: EmployeeDetails = {
+    Id: 0,
+    Fullname: "",
+    Email: "",
+    Phone: "",
+    Salary: 0.0,
+    OTRate: 0.0,
+    JoinDate: new Date(),
+    EmployeeRoleDetails: {
+        Id: 0,
+        Name: ""
+    },
+    Address: {
+        HouseNo: "",
+        Street: "",
+        City: "",
+        PostalCode: ""
+    },
+    Total: 0
+  };
  
   
   newEmployee : Employee = this.deep(newEmployee);
-  
-  constructor(public dialogService: DialogService, public messageService: MessageService){}
-  onEmployeeSelect(employee: Employee){
+  estateList: EstateDetails[] = [];
+    selectedEstate: EstateDetails = {
+    Id: 0,
+    Name: '',
+    AddressDetails: '',
+    ContactNumber: '',
+    OtherDetails: '',
+    Balance: 0,
+    Total: 0
+  };
+  filter: Filter = {
+    CurrentPage: 1,
+    RecordsPerPage: 10,
+    SearchQuery: '',
+    SortAsc: true,
+    SortCol: 'Name',
+    DatesWithin: []
+  }
+  //Store logged user details
+  loggedUserId: number = 0;
+  loggedUserRole: string = '';
+  //Store estate model
+  zesnaEstateModel: ZesnaEstateModel;
+  zesnaEmployeeModel: ZesnaEmployeeModel;
+  constructor(public dialogService: DialogService, public messageService: MessageService,
+     private _zesnaCommonService: ZesnaCommonService,
+     private _zesnaEmployeeService: ZesnaEmployeeService
+    ){
+    this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
+    this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
+  }
+
+  ngOnInit(): void {
+
+  }
+
+getEstateListByUserId() {
+    this.zesnaEstateModel.GetAllEstateDetails(this.loggedUserId).then(
+      (data) => {
+        if (data) {
+          this.estateList = data;
+          this.selectedEstate = this.deep(this.estateList[0]);
+          this.getEmployeeList();
+        }
+      }
+    );
+  }
+
+  onEmployeeSelect(employee: EmployeeDetails){
     this.selectedEmployee = employee;
     this.showEmployeeAttendance(employee);
   }
-  onCompanyChange(event: any) {
+  onEstateChange(event: any) {
     // Fetch and filter petty cash history based on the selected company
-    
-    this.filterHistory();
+    this.selectedEstate = event;
+    this.getEmployeeList();
   }
 
-
-  filterHistory() {
-   
+  getEmployeeList() {
+    this.zesnaEmployeeModel.GetAllEmployeeInfoDetailsWithPG(this.filter, this.selectedEstate.Id).then(
+      (data) => {
+        this.employees = <EmployeeDetails[]>data;
+      }
+    );
   }
 
-  showEmployeeAttendance(employee: Employee){
+  getEmployeeById() {
+    this.zesnaEmployeeModel.GetEmployeeInfoDetailsById( this.selectedEmployee.Id).then(
+      (data) => {
+        this.selectedEmployee = <EmployeeDetails>data;
+      }
+    );
+  }
+
+  showEmployeeAttendance(employee: EmployeeDetails){
     this.ref = this.dialogService.open(EmployeeAttendanceComponent, {
       header: 'View Attendance',
       width: '100%',
@@ -64,7 +143,7 @@ export class EmployeeManagementComponent {
   editingEmployee: boolean = false;
 
 
-  ngOnInit(): void {}
+
 
   
   addNewEmployee(): void {
@@ -77,25 +156,19 @@ export class EmployeeManagementComponent {
     this.displayEmployeeSlider = false;
   }
 
-  saveEmployee(): void {
-    if (this.editingEmployee) {
-      // Update existing employee
-      const index = this.employees.findIndex(e => e.Id === this.newEmployee.Id);
-      if (index !== -1) {
-        this.employees[index] = { ...this.newEmployee };
+  saveEmployee(type: string): void {
+    this.zesnaEmployeeModel.SetlEmployeeInfoDetails( this.selectedEmployee, this.selectedEstate.Id, type).then(
+      (data) => {
+        this.selectedEmployee = <EmployeeDetails>data;
       }
-    } else {
-      // Add new employee
-      this.newEmployee.Id = this.employees.length + 1;
-      this.employees.push({ ...this.newEmployee });
-    }
+    );
     this.hideEmployeeSlider();
   }
 
-  viewEmployee(employee: Employee): void {
+  viewEmployee(employee: EmployeeDetails): void {
     this.editingEmployee = false;
     this.selectedEmployee = employee;
-    this.newEmployee = { ...employee };
+    
     this.displayEmployeeSlider = true;
   }
 
@@ -105,8 +178,13 @@ export class EmployeeManagementComponent {
     this.displayEmployeeSlider = true;
   }
 
-  deleteEmployee(employee: Employee): void {
-    this.employees = this.employees.filter(e => e.Id !== employee.Id);
+  deleteEmployee(employee: EmployeeDetails): void {
+    this.zesnaEmployeeModel.SetlEmployeeInfoDetails( employee, this.selectedEstate.Id, 'REMOVE').then(
+      (data) => {
+        
+      }
+    );
+    this.hideEmployeeSlider();
   }
    // Making a deep copy
    deep<T extends any>(source: T): T {

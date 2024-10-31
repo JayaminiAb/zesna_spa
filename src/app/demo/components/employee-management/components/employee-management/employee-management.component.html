@@ -2,18 +2,46 @@
     <div class="col-12">
       <div class="card">
         <h5>Employee List</h5>
-        <div class="p-fluid p-formgrid grid">
+      
   
-          <div class="field col-12 md:col-6">
-            <label htmlFor="state">Select Estate</label>
-            <div class="flex flex-wrap gap-2 filter_area">
-              <p-dropdown [options]="companies" [(ngModel)]="selectedCompany" placeholder="Select a Company"
-              (onChange)="onCompanyChange($event)">
-            </p-dropdown>
-            <button pButton type="button" label="Add New Employee" icon="pi pi-plus" (click)="addNewEmployee()"></button>
-            </div>
-          
+        <div class="p-fluid p-formgrid grid">
+
+          <div class="field col-12 md:col-3">
+              <label htmlFor="state">Select Estate</label>
+              <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+                  (onChange)="onEstateChange($event)">
+              </p-dropdown>
           </div>
+
+
+          <div class="field col-12 md:col-3">
+              <label htmlFor="state">Search by name</label>
+
+              <div class="display_flex_center">
+                  <input [(ngModel)]="filter.SearchQuery" pInputText id="reimbursementAmount" type="text" />
+
+              </div>
+
+
+          </div>
+         
+          
+
+
+      </div>
+      <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-3">
+
+
+              <div class="display_flex_center">
+
+
+                  <button pButton type="button" label="Add New Employee" icon="pi pi-plus"
+                      (click)="addNewEmployee()"></button>
+              </div>
+          </div>
+      </div>
+
          
   
   
@@ -106,7 +134,8 @@
                 <p-calendar [(ngModel)]="newEmployee.JoinDate" dateFormat="yy-mm-dd"></p-calendar>
               </div>
               <div class="field col-12 margin_bottom0 flex flex-wrap gap-2 btn_panel">
-                <button pButton type="button" label="Save" (click)="saveEmployee()"></button>
+                <button pButton type="button" [label]="selectedEmployee.Id === 0 ? 'Create' : 'Update '" (click)="saveEmployee(selectedEmployee.Id === 0 ? 'INSERT' : 'UPDATE')"></button>
+                
                 <button pButton type="button" label="Cancel" class="p-button-danger" (click)="hideEmployeeSlider()"></button>
               </div>
             </div>
@@ -116,4 +145,3 @@
         </div>
       </div>
     </div>
-  </div>

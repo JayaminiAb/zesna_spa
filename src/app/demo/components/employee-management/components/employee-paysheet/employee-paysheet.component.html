@@ -6,10 +6,10 @@
 
         <div class="field col-12 md:col-3">
           <label htmlFor="state">Select Estate</label>
-          <p-dropdown [options]="companies" [(ngModel)]="selectedCompany" placeholder="Select an Estate"
-            (onChange)="onCompanyChange($event)">
+          <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+              (onChange)="onEstateChange($event)">
           </p-dropdown>
-        </div>
+      </div>
 
         <div class="field col-12 md:col-3">
           <label htmlFor="state">Select Date</label>
@@ -23,7 +23,7 @@
 
           <label htmlFor="state">Total payment</label>
 
-          <ng-container *ngIf="selectedCompanyDetails else notAvailable">
+          <ng-container *ngIf="selectedEstate else notAvailable">
             <div class="font-bold text-38px text-align-right">
               <label for="" class="text-blue-600">{{getTotalAmount() |
                 currency: 'Rs'}}</label>
@@ -83,29 +83,29 @@
             <td >
 
               
-                EMP{{ payment.Id }}
+                {{EmployeeDisplayId}}
              
 
             </td>
 
-            <td [pEditableColumn]="payment.FullName" pEditableColumnField="name">
+            <td [pEditableColumn]="filter.SearchQuery" pEditableColumnField="name">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="payment.FullName" required />
+                  <input pInputText type="text" (focus)="op.toggle($event)" (keyup)="getEmployeeList()" [(ngModel)]="payment.SearchQuery" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.FullName }}
+                  {{ payment.EmployeeName }}
                 </ng-template>
               </p-cellEditor>
             </td>
 
-            <td [pEditableColumn]="payment.Duty" pEditableColumnField="inventoryStatus">
+            <td [pEditableColumn]="payment.EmployeeDuty" pEditableColumnField="inventoryStatus">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText [(ngModel)]="payment.Duty" />
+                  <input pInputText [(ngModel)]="payment.EmployeeDuty" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.Duty }}
+                  {{ payment.EmployeeDuty }}
                 </ng-template>
               </p-cellEditor>
             </td>
@@ -160,44 +160,44 @@
                 </ng-template>
               </p-cellEditor>
             </td>
-            <td [pEditableColumn]="payment.OTHours" pEditableColumnField="price">
+            <td [pEditableColumn]="payment.OtHours" pEditableColumnField="price">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.OTHours" />
+                  <input pInputText type="number" [(ngModel)]="payment.OtHours" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.OTHours }}
+                  {{ payment.OtHours }}
                 </ng-template>
               </p-cellEditor>
             </td>
-            <td [pEditableColumn]="payment.OTRate" pEditableColumnField="price">
+            <td [pEditableColumn]="payment.EmployeeOTRate" pEditableColumnField="price">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.OTRate" />
+                  <input pInputText type="number" [(ngModel)]="payment.EmployeeOTRate" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.OTRate | currency }}
+                  {{ payment.EmployeeOTRate | currency }}
                 </ng-template>
               </p-cellEditor>
             </td>
 
-            <td [pEditableColumn]="payment.OTPayment" pEditableColumnField="price">
+            <td [pEditableColumn]="payment.OtPayment" pEditableColumnField="price">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.OTPayment" />
+                  <input pInputText type="number" [(ngModel)]="payment.OtPayment" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.OTPayment | currency}}
+                  {{ payment.OtPayment | currency}}
                 </ng-template>
               </p-cellEditor>
             </td>
-            <td [pEditableColumn]="payment.DayPayment" pEditableColumnField="price">
+            <td [pEditableColumn]="payment.EmployeeSalary" pEditableColumnField="price">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.DayPayment" />
+                  <input pInputText type="number" [(ngModel)]="payment.EmployeeSalary" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.DayPayment | currency}}
+                  {{ payment.EmployeeSalary | currency}}
                 </ng-template>
               </p-cellEditor>
             </td>
@@ -205,7 +205,7 @@
               
                
                 
-               {{ payment.TotalPayment | currency}}
+               {{ 0 | currency}}
                 
                 
               
@@ -228,3 +228,42 @@
     </div>
   </div>
 </div>
+
+<p-overlayPanel #op [style]="{ width: '450px' }" [showCloseIcon]="true">
+  <ng-template pTemplate="content">
+      <p-table 
+          [value]="employees" 
+          selectionMode="single" 
+          [(selection)]="selectedProduct" 
+          (onRowSelect)="onRowSelectEmployee($event, op)" 
+          [paginator]="true" 
+          [rows]="5" 
+          responsiveLayout="scroll">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th pSortableColumn="name">
+                          Select an Employee <p-sortIcon field="name" />
+                      </th>
+                      <!-- <th>Image</th> -->
+                      <!-- <th pSortableColumn="price">
+                          Price <p-sortIcon field="price" />
+                      </th> -->
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-employee>
+                  <tr [pSelectableRow]="rowData">
+                      <td>
+                          {{ employee.Fullname }}
+                      </td>
+                      <!-- <td>
+                          <img 
+                              src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" 
+                              [alt]="product.image" 
+                              class="w-5rem shadow-2" />
+                      </td> -->
+                      <!-- <td>{{ employee.price }}</td> -->
+                  </tr>
+              </ng-template>
+      </p-table>
+  </ng-template>
+</p-overlayPanel>
